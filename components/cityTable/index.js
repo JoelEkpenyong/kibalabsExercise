@@ -14,10 +14,7 @@ import { getCities, sortByParameter } from "../../helpers";
 const CityTable = () => {
   const [cityData, setCityData] = useState([]);
 
-  const route = useRouter();
-  const query = route.query;
-
-  console.log(route);
+  const { query } = useRouter();
 
   useEffect(async () => {
     const cities = await getCities();
