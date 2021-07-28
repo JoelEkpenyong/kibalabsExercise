@@ -9,22 +9,23 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
-import { getCities, sortByParameter } from "../../helpers";
+import { getCities, getOrderParameter, sortByParameter } from "../../helpers";
 
 const CityTable = () => {
   const [cityData, setCityData] = useState([]);
+  const [orderParameter, setOrderParameter] = useState(null); //sorting parameter
 
-  const { query } = useRouter();
+  const router = useRouter();
 
   useEffect(async () => {
     const cities = await getCities();
-    if (query.orderByField) {
-      setCityData(sortByParameter(cities, query.orderByField));
+    setOrderParameter(getOrderParameter(router.asPath));
+    if (orderParameter) {
+      setCityData(sortByParameter(cities, orderParameter)); // if there's a sorting paramter, then sort the data using that paramter
     } else {
-      setCityData(cities);
+      setCityData(cities); //if there's none, don't bother sorting
     }
-    console.dir(cities);
-  }, [query]);
+  }, [router, orderParameter]);
 
   const tableRows = cityData.map((row, idx) => {
     if (row) {

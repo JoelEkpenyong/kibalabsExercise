@@ -12,7 +12,11 @@ export const getCities = async () => {
   return data;
 };
 
-export const sortByParameter = (array, parameter) => {
+export const getOrderParameter = (url) => {
+  return url.split("=")[1]; //get's the sorting paramter by spliting the url into an array and getting the last item
+};
+
+export const sortByParameter = (array, parameter = "number") => {
   if (parameter !== "city" && parameter !== "country") {
     return array.sort((a, b) => (+a[parameter] > +b[parameter] && 1) || -1);
   }
